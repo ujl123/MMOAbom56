@@ -10,7 +10,7 @@ The firmware can be found in firmware/compiled
 You will also need
 
 1x rp2040 pro micro mcu (the firmware assumes rp2040, if not you will need to edit the pins to atmega pin names)  
-1x button  
+1x reset butto (find a small one as the gap between the case and pcb is very small.)
 56x chocv1 switches of your choice  
 56x chocv1 keycaps  
 56x chocv1 hotswap sockets  
