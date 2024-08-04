@@ -1,0 +1,322 @@
+units:
+  # Proxy Spacing Variables
+  kx: cx
+  ky: cy
+  # Padding Variables
+  px: kx + 6
+  py: ky + 6
+  # Double Padding Variables
+  dpx: kx + 8
+  dpy: ky + 8  
+  screwSize: 1.5
+  standoffSize: 2.5
+points:
+  zones:
+    matrix:
+      anchor:
+        shift: [100, -200]    
+      key:
+        padding: 1ky
+        spread: 1kx
+      columns:
+        lmacro:
+          key.column_net: P1
+          rows.mod.skip: true
+        louter:
+          key.column_net: P0
+          rows.mod.skip: true
+        lpinky:
+          key.column_net: P2
+          rows.mod.skip: true
+        lring:
+          key.column_net: P3
+          rows.mod.skip: true
+        lmiddle:
+          key.column_net: P21
+        lindex:
+          key.column_net: P20
+        linner:
+          key.column_net: P19
+        rinner:
+          key.spread: 2px
+          key.column_net: P18
+          rows.function.skip: true
+          rows.num.skip: true
+        rindex:
+          key.column_net: P15 
+          rows.function.skip: true
+          rows.num.skip: true
+        rmiddle:
+          key.column_net: P14
+          rows.function.skip: true
+          rows.num.skip: true
+        rring:
+          key.column_net: P16
+          rows.function.skip: true
+          rows.num.skip: true
+          rows.mod.skip: true
+        rpinky:
+          key.column_net: P10
+          rows.function.skip: true
+          rows.num.skip: true
+          rows.mod.skip: true
+      rows:
+        mod:
+          row_net: P9
+        bottom:
+          row_net: P8
+        home:
+          row_net: P7
+        top:
+          row_net: P6
+        num:
+          row_net: P5
+        function:
+          row_net: P4
+outlines:
+  raw:
+    - what: rectangle
+      where: true
+      size: [px, py]
+  keys:
+    - what: rectangle
+      where: true
+      size: [kx-0.5,ky-0.5]
+  board:
+    - what: polygon
+      operation: stack
+      points:
+        - ref: matrix_lmacro_function
+          shift: [-0.5px,0.5py]
+        - ref: matrix_linner_function
+          shift: [1.6px,0.5py]
+        - ref: matrix_linner_top
+          shift: [1.6px,0.5py]          
+        - ref: matrix_rpinky_top
+          shift: [0.5px,0.5py]          
+        - ref: matrix_rpinky_bottom
+          shift: [0.5px,-1.3py]
+        - ref: matrix_lmacro_bottom
+          shift: [-0.5px,-1.3py]
+  xlBoard:
+    - what: polygon
+      operation: stack
+      points:
+        - ref: matrix_lmacro_function
+          shift: [-0.5dpx,0.5dpy]
+        - ref: matrix_linner_function
+          shift: [1.6dpx,0.5dpy]
+        - ref: matrix_linner_top
+          shift: [1.6dpx,0.5dpy]          
+        - ref: matrix_rpinky_top
+          shift: [0.5dpx,0.5dpy]          
+        - ref: matrix_rpinky_bottom
+          shift: [0.5dpx,-1.3dpy]
+        - ref: matrix_lmacro_bottom
+          shift: [-0.5dpx,-1.3dpy]
+  combo:
+    - name: board
+    - operation: subtract
+      name: keys
+  mounting:
+    - what: circle
+      radius: screwSize
+      where:
+        ref: [matrix_lmacro_function]
+        shift: [8,-8]
+    - what: circle
+      radius: screwSize
+      where:
+        ref: [matrix_linner_function]
+        shift: [-8,-8]
+    - what: circle
+      radius: screwSize
+      where:
+        ref: [matrix_rinner_top]
+        shift: [8,-8]
+    - what: circle
+      radius: screwSize
+      where:
+        ref: [matrix_rpinky_top]
+        shift: [-8,-8]
+    - what: circle
+      radius: screwSize
+      where:
+        ref: [matrix_lmacro_bottom]
+        shift: [0,-16]
+    - what: circle
+      radius: screwSize
+      where:
+        ref: [matrix_linner_mod]
+        shift: [12,0]      
+    - what: circle
+      radius: screwSize
+      where:
+        ref: [matrix_rpinky_bottom]
+        shift: [0,-16]
+  standoffs:
+    - what: circle
+      radius: standoffSize
+      where:
+        ref: [matrix_lmacro_function]
+        shift: [8,-8]
+    - what: circle
+      radius: standoffSize
+      where:
+        ref: [matrix_linner_function]
+        shift: [-8,-8]
+    - what: circle
+      radius: standoffSize
+      where:
+        ref: [matrix_rinner_top]
+        shift: [8,-8]
+    - what: circle
+      radius: standoffSize
+      where:
+        ref: [matrix_rpinky_top]
+        shift: [-8,-8]
+    - what: circle
+      radius: standoffSize
+      where:
+        ref: [matrix_lmacro_bottom]
+        shift: [0,-16]
+    - what: circle
+      radius: standoffSize
+      where:
+        ref: [matrix_linner_mod]
+        shift: [12,0]      
+    - what: circle
+      radius: standoffSize
+      where:
+        ref: [matrix_rpinky_bottom]
+        shift: [0,-16]
+  resetHole:
+    - what: circle
+      radius: screwSize
+      where:
+        ref: matrix_linner_function
+        shift: [22,-35]
+pcbs:
+  unisplitchoc:
+    template: kicad8
+    outlines:
+      main:
+        outline: board
+    footprints:
+      choc_hotswap:
+        what: choc
+        where: true
+        params:
+          keycaps: true
+          reverse: false
+          hotswap: true
+          from: "{{column_net}}"
+          to: "{{colrow}}"
+      diode:
+        what: diode
+        where: true
+        params:
+          from: "{{colrow}}"
+          to: "{{row_net}}"
+        adjust:
+          shift: [0,-5]
+      promicro:
+        what: promicro
+        params:
+          orientation: "up"
+        where:
+          ref: matrix_linner_function
+          shift: [23,-7.25]
+          rotate: -90
+      reset:
+        what: button
+        params:
+          side: "B"
+          from: GND
+          to: RST
+        where:
+          ref: matrix_linner_function
+          shift: [22,-35]
+      hole_lmacro_function:
+        what: mountinghole
+        where:
+          ref: [matrix_lmacro_function]
+          shift: [8,-8]
+      hole_linner_function:
+        what: mountinghole
+        where:
+          ref: [matrix_linner_function]
+          shift: [-8,-8]
+      hole_rinner_top:
+        what: mountinghole
+        where:
+          ref: [matrix_rinner_top]
+          shift: [8,-8]
+      hole_rpinky_top:
+        what: mountinghole
+        where:
+          ref: [matrix_rpinky_top]
+          shift: [-8,-8]
+      hole_lmacro_bottom:
+        what: mountinghole
+        where:
+          ref: [matrix_lmacro_bottom]
+          shift: [0,-16]
+      hole_linner_mod:
+        what: mountinghole
+        where:
+          ref: [matrix_linner_mod]
+          shift: [12,0]
+      hole_rpinky_bottom:
+        what: mountinghole
+        where:
+          ref: [matrix_rpinky_bottom]
+          shift: [0,-16]
+cases:
+  _xlBottom:
+    - name: xlBoard
+      extrude: 1
+  _outerWall:
+    - name: xlBoard
+      extrude: 6
+  _innerWall:
+    - name: board
+      extrude: 6
+  _wall:
+    - what: case
+      name: _outerWall
+      operation: add
+    - what: case
+      name: _innerWall
+      operation: subtract
+  _holes:
+    - name: mounting
+      extrude: 4
+  _resetHole:
+    - name: resetHole
+      extrude: 4
+  _standoffs:
+    - name: standoffs
+      extrude: 4
+  printCase:
+    - what: case
+      name: _standoffs
+      operation: add
+    - what: case
+      name: _holes
+      operation: subtract
+    - what: case
+      name: _xlBottom
+      operation: add
+    - what: case
+      name: _wall
+      operation: add
+    - what: case
+      name: _resetHole
+      operation: subtract
+
+
+
+    
+
+
