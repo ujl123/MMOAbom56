@@ -7,7 +7,7 @@ Followed the guide on https://flatfootfox.com/ergogen-introduction/ and was able
 If you do want to fab and print this ...  
 The pcb files can be found in MMOAbom56/pcbs/gerber/.   
 The stl files for is in MMOAbom56/case/  
-The firmware can be found in firmware/compiled  
+The (vial) firmware can be found in firmware/compiled  
 
 You will also need
 
